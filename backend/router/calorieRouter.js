@@ -1,9 +1,12 @@
-const { Router } = require('mongoose')
+const { Router } = require('express')
 const calorieRouter = Router();
-const{getAllMeals} = require('../controllers/calorieController');
+const{getAllMeals, deleteSpecificMeal, updateSpecificMeal, uploadMeal} = require('../controllers/calorieController');
 
 
 
-calorieRouter.get('/',);
+calorieRouter.get('/',getAllMeals);
 
-calorieRouter.get('/Date',);
+calorieRouter.post('/Upload', uploadMeal);
+
+
+module.exports = calorieRouter

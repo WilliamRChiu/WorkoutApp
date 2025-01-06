@@ -8,7 +8,8 @@ const getAllMeals = async function(req,res){
 }
 //this gets meals for a specific date
 const getDayMeal = async function(req,res){
-
+    const{day,month,year} = req.query;
+    
 }
 
 
@@ -91,4 +92,4 @@ const updateSpecificMeal = async function(req,res){
     }
 }
 
-module.exports = {getAllMeals, deleteSpecificMeal, updateSpecificMeal};
+module.exports = {getAllMeals, deleteSpecificMeal, updateSpecificMeal, uploadMeal};
