@@ -13,7 +13,9 @@ const getDayMeal = async function(req,res){
 
 
 //this will get meals for a specific week
+const getWeekMeal = async function(req,res){
 
+}
 
 //this gets meals for a specific month
 const getMonthMeal = async function(req,res){
@@ -35,6 +37,18 @@ const getMonthMeal = async function(req,res){
 
 
 //This gets a form to upload meals for the (/) route
+const uploadMeal = async function(req,res){
+    const{title, calories,protein} = req.body;
+    try{
+        const meal = await Calorie.create({title,calories,protein});
+        res.status(200).json(meal);
+    }
+    catch(e){
+        console.log(e.message);
+        res.status(404).json({message: e.message});
+    }
+}
+
 
 //This deletes a specific meal
 const deleteSpecificMeal = async function(req,res){

@@ -4,4 +4,6 @@ const{getAllMeals} = require('../controllers/calorieController');
 
 
 
-calorieRouter.get('/',)
+calorieRouter.get('/',);
+
+calorieRouter.get('/Date',);
