@@ -8,30 +8,91 @@ const getAllMeals = async function(req,res){
 }
 //this gets meals for a specific date
 const getDayMeal = async function(req,res){
-    const{day,month,year} = req.query;
-    
+    const{Day,Month,Year} = req.query;
+    if(isNaN(Year)||Year<0){
+        res.status(400).json({error: "Invalid Year"});
+    }
+    else if(isNaN(Month) || Month<1 || Month>12){
+        res.status(400).json({error: "Invalid Month"});
+    }
+    else if(isNaN(Day) || Day<0){
+        if(Month==1||Month==3||Month==5||Month==7||Month==8||Month==10||Month==12){
+            if(Day>31){
+                res.status(400).json({error:"Invalid Day"});
+            }
+        }
+        else if(Month==2){
+            if(Year%4!=0){
+                if(Day>28){
+                    res.status(400).json({error:"Invalid Day"});
+                }
+            }
+            else{
+                if(Day>29){
+                    res.status(400).json({error:"Invalid Day"});
+                }
+            }
+        }
+        else{
+            if(Day>30){
+                res.status(400).json({error:"Invalid Day"});
+            }
+        }
+    }
+    try{
+        const currentDate = new Date(Number(Year), Number(Month), Number(Day));
+        const meals = await Calories.find({
+            createdAt:{currentDate}
+        });
+        if(!meals){
+            throw new Error("No meals recorded during this Date");
+        }
+        else{
+            return res.status(200).json(meals);
+        }
+    }
+    catch(e){
+        console.log(e.message);
+        res.status(400).json({error:e.message})
+    }
 }
 
 
 //this will get meals for a specific week
 const getWeekMeal = async function(req,res){
-
+    const{Year, Month, Week} = req.query
 }
 
 //this gets meals for a specific month
 const getMonthMeal = async function(req,res){
     const{Year, Month} = req.query;
-    if(isNaN(Year)){
-        res.status(404).json({error: "Invalid Year"});
+    if(isNaN(Year)||Year<0){
+        return res.status(400).json({error: "Invalid Year"});
     }
-    else if(isNaN(Month) || Month<0 || Month>12){
-        res.status(404).json({error: "Invalid Month"});
+    else if(isNaN(Month) || Month<1 || Month>12){
+        return res.status(404).json({error: "Invalid Month"});
     }
     try{
         //Find the meals in the corresponding month and year
-        
+        const startDate = new Date(Number(Year), Number(Month)-1,1);
+        const endDate = new Date(Number(Year), Number(Month),1);
+
+        const meals = await Calories.find({
+            createdAt:{
+                $gte: startDate,
+                $lte: endDate
+            },
+        })
+        if(!meals){
+            throw new Error("No meals found for specified month and year");
+        }
+        else{
+            return res.status(200).json(meals);
+        }
     }
     catch(e){
+        console.log("Error fetching meals: ", e.message);
+        return res.status(400).json({error:e.message})
 
     }
 }
@@ -92,4 +153,4 @@ const updateSpecificMeal = async function(req,res){
     }
 }
 
-module.exports = {getAllMeals, deleteSpecificMeal, updateSpecificMeal, uploadMeal};
+module.exports = {getDayMeal, getMonthMeal, getAllMeals, deleteSpecificMeal, updateSpecificMeal, uploadMeal};
