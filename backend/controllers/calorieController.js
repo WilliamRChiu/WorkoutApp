@@ -41,7 +41,7 @@ const getDayMeal = async function(req,res){
     }
     try{
         const currentDate = new Date(Number(Year), Number(Month), Number(Day));
-        const meals = await Calories.find({
+        const meals = await Calorie.find({
             createdAt:{currentDate}
         });
         if(!meals){
@@ -77,7 +77,7 @@ const getMonthMeal = async function(req,res){
         const startDate = new Date(Number(Year), Number(Month)-1,1);
         const endDate = new Date(Number(Year), Number(Month),1);
 
-        const meals = await Calories.find({
+        const meals = await Calorie.find({
             createdAt:{
                 $gte: startDate,
                 $lte: endDate
@@ -100,9 +100,9 @@ const getMonthMeal = async function(req,res){
 
 //This gets a form to upload meals for the (/) route
 const uploadMeal = async function(req,res){
-    const{title, calories,protein} = req.body;
+    const{Title, Calories,Protein} = req.body;
     try{
-        const meal = await Calorie.create({title,calories,protein});
+        const meal = await Calorie.create({Title,Calories,Protein});
         res.status(200).json(meal);
     }
     catch(e){

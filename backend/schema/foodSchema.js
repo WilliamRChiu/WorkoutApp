@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const {Schema} = require("mongoose");
 
 const foodSchema = new Schema({
-    title:{
+    Title:{
         type: String,
         required: true,
         minLength: 3
