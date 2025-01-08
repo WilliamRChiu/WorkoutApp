@@ -3,6 +3,7 @@ const workoutRouter = Router();
 
 // const Workout = require('../schema/workoutSchema');
 const {
+    findWorkout,
     createWorkout,
     getAllWorkouts,
     getSingleWorkout,
@@ -24,5 +25,6 @@ workoutRouter.delete('/:id',deleteWorkout);
 
 workoutRouter.patch('/:id',updateWorkout);
 
+workoutRouter.get('/search?title');
 
 module.exports = workoutRouter

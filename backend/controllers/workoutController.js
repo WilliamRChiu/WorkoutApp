@@ -78,5 +78,23 @@ const updateWorkout = async function(req,res){
         res.status(404).json({error: e.message});
     }
 }
+const findWorkout = async function(req,res){
+    const{title} = req.query;
+    if(!title || !(typeof title==="String")){
+        return res.status(400).json({error:"Not a valid Workout Name"})
+    }
+    try{
+        const workout = await Workout.find({title: title});
+        if(!workout){
+            throw new Error("No "+title+" workout exists");
+        }
+        else{
+            return res.status(200).json(workout);
+        }
+    }catch(error){
+        console.log(error.message);
+        res.status(404).json({error:error.message});
+    }
+}
 
-module.exports = {updateWorkout,deleteWorkout,getSingleWorkout, getAllWorkouts, createWorkout};
+module.exports = {findWorkout, updateWorkout,deleteWorkout,getSingleWorkout, getAllWorkouts, createWorkout};
