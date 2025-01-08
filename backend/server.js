@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const app = express();
 const workout = require('./router/workoutRouter');
 const meals = require('./router/calorieRouter')
+const user = require('./router/userRouter')
 Port = process.env.Port;
 
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use((req,res,next)=>{
 //Routes
 app.use('/api/workouts',workout);
 app.use('/api/meals', meals);
+app.use('/api/user',user);
 
 
 //connect to mongodb
